@@ -100,7 +100,7 @@
             padding: 10px 0;
             font-size: 1rem;
             color: #fff;
-            margin-bottom: 30px;
+            margin-bottom: 10px; /* Reducido un poco para que no quede tanto espacio vertical */
             border: none;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             outline: none;
@@ -162,7 +162,7 @@
     <!-- Contenedor Principal -->
     <main class="flex-grow flex items-center justify-center p-6 md:p-12 relative z-10">
         
-        <div class="max-w-2xl w-full">
+        <div class="max-w-xl w-full"> <!-- Cambiado de max-w-2xl a max-w-xl para que el formulario en lista de 1 columna no se vea excesivamente ancho en PC -->
             
             <header class="text-center mb-10 mt-8">
                 <div class="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-sm mb-6 text-pink-300 uppercase tracking-widest font-semibold">
@@ -179,28 +179,25 @@
             </header>
 
             <!-- RECUERDA: Cambia "TU_ID_DE_FORMSPREE" por el código de tu formulario en formspree.io -->
-            <form action="https://formspree.io/f/xzepzdvr" method="POST" class="glass-panel p-8 md:p-10">
+            <form action="https://formspree.io/f/xzepzdvr" method="POST" class="glass-panel p-8 md:p-10 flex flex-col">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                    <!-- Nombre -->
-                    <div class="input-group">
-                        <input type="text" name="nombre" id="nombre" placeholder=" ">
-                        <label for="nombre">Nombre</label>
-                    </div>
-
-                    <!-- Edad -->
-                    <div class="input-group">
-                        <input type="number" name="edad" id="edad" placeholder=" ">
-                        <label for="edad">Edad</label>
-                    </div>
+                <!-- Nombre -->
+                <div class="input-group">
+                    <input type="text" name="nombre" id="nombre" placeholder=" ">
+                    <label for="nombre">Nombre</label>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                    <!-- Instagram -->
-                    <div class="input-group">
-                        <input type="text" name="instagram" id="instagram" placeholder=" ">
-                        <label for="instagram">Usuario de Instagram (@)</label>
-                    </div>
+                <!-- Edad -->
+                <div class="input-group">
+                    <input type="number" name="edad" id="edad" placeholder=" ">
+                    <label for="edad">Edad</label>
+                </div>
+
+                <!-- Instagram -->
+                <div class="input-group">
+                    <input type="text" name="instagram" id="instagram" placeholder=" ">
+                    <label for="instagram">Usuario de Instagram (@)</label>
+                </div>
 
                 <!-- Descripción -->
                 <div class="input-group mb-0">
@@ -208,6 +205,7 @@
                     <label for="descripcion">Breve descripción de lo que haces</label>
                 </div>
 
+                <!-- Botón de Envío -->
                 <div class="mt-8 text-center">
                     <button type="submit" class="w-full md:w-auto px-10 py-4 font-syne font-bold text-lg rounded-full bg-white text-black hover:scale-105 hover:bg-transparent hover:text-white border-2 border-white transition-all duration-300 ease-in-out shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,0,127,0.5)]">
                         Enviar
