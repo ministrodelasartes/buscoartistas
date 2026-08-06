@@ -177,7 +177,7 @@
             </header>
 
             <!-- Cambiamos Formspree por FormSubmit. REEMPLAZA "tu_correo@gmail.com" por tu email real -->
-            <form action="https://formsubmit.co/museatienda@gmail.com" method="POST" enctype="multipart/form-data" class="glass-panel p-8 md:p-10 flex flex-col">
+            <form action="https://formsubmit.co/tu_correo@gmail.com" method="POST" enctype="multipart/form-data" class="glass-panel p-8 md:p-10 flex flex-col">
                 
                 <!-- Opciones extra de FormSubmit para mejorar la experiencia -->
                 <!-- Cambia el asunto del correo que te llegará -->
@@ -205,7 +205,7 @@
 
                 <!-- Descripción -->
                 <div class="input-group">
-                    <textarea name="descripcion" id="descripcion" rows="1" placeholder=" "></textarea>
+                    <textarea name="descripcion" id="descripcion" rows="3" placeholder=" "></textarea>
                     <label for="descripcion">Breve descripción de lo que haces</label>
                 </div>
 
@@ -227,13 +227,18 @@
                                 Haz clic aquí o arrastra tus fotos
                             </p>
                             <p class="text-xs text-gray-400">
-                                Puedes seleccionar hasta 3-4 fotos (JPG, PNG)
+                                Puedes seleccionar hasta 2 fotos (JPG, PNG)
                             </p>
                         </div>
                     </div>
 
+                    <!-- Mensaje de error para límite de fotos -->
+                    <p id="error-fotos" class="text-xs text-red-400 mt-2 hidden font-medium text-center">
+                        Solo se permite un máximo de 2 fotos. Se han seleccionado las 2 primeras.
+                    </p>
+
                     <!-- Contenedor para previsualizar las fotos elegidas -->
-                    <div id="preview-container" class="grid grid-cols-3 gap-3 mt-4"></div>
+                    <div id="preview-container" class="grid grid-cols-2 gap-3 mt-4"></div>
 
                     <!-- Contenedor oculto para separar las fotos y que lleguen todas -->
                     <div id="hidden-inputs-container" class="hidden"></div>
@@ -264,14 +269,22 @@
         function previewImages(event) {
             const container = document.getElementById('preview-container');
             const hiddenContainer = document.getElementById('hidden-inputs-container');
+            const errorMsg = document.getElementById('error-fotos');
             
             container.innerHTML = ''; // Limpiar previsualizaciones anteriores
             hiddenContainer.innerHTML = ''; // Limpiar inputs ocultos anteriores
+            errorMsg.classList.add('hidden'); // Ocultar mensaje de error por defecto
             
-            const files = event.target.files;
+            let files = Array.from(event.target.files);
             
-            if (files && files.length > 0) {
-                Array.from(files).forEach((file, index) => {
+            // Validar cantidad máxima (2 fotos)
+            if (files.length > 2) {
+                files = files.slice(0, 2); // Tomar solo los primeros 2
+                errorMsg.classList.remove('hidden'); // Mostrar el aviso
+            }
+            
+            if (files.length > 0) {
+                files.forEach((file, index) => {
                     if (file.type.startsWith('image/')) {
                         // 1. Crear previsualización para el usuario
                         const reader = new FileReader();
@@ -290,8 +303,7 @@
                         
                         reader.readAsDataURL(file);
 
-                        // 2. MAGIA: Crear un input oculto individual para cada foto
-                        // Así FormSubmit las recibe como foto_1, foto_2, etc.
+                        // 2. Crear input oculto individual
                         const dt = new DataTransfer();
                         dt.items.add(file);
                         
@@ -303,6 +315,14 @@
                         hiddenContainer.appendChild(hiddenInput);
                     }
                 });
+            }
+            
+            // Actualizar el valor del input original para reflejar que solo tomamos 2
+            // Esto evita problemas si el usuario vuelve a abrir el diálogo de archivos
+            if(event.target.files.length > 2) {
+               const dtMain = new DataTransfer();
+               files.forEach(file => dtMain.items.add(file));
+               event.target.files = dtMain.files;
             }
         }
     </script>
